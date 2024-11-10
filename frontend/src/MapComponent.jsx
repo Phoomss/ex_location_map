@@ -14,7 +14,7 @@ const MapComponent = () => {
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAsmDXCfNp6EVrsaRMj2okavlxRrty_oLE">
+    <LoadScript googleMapsApiKey="GG_MAP_KEY">
       <GoogleMap
         id="map"
         mapContainerStyle={{ width: '100%', height: '400px' }}
