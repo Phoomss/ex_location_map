@@ -1,6 +1,7 @@
 import React from 'react'
 import AddLocation from './AddLocation'
 import MapComponent from './MapComponent'
+import MapWithDistance from './MapWithDistance'
 
 const App = () => {
   return (
@@ -8,6 +9,8 @@ const App = () => {
       <h1>Map with markers</h1>
       <AddLocation/>
       <MapComponent/>
+      <hr />
+      <MapWithDistance/>
     </div>
   )
 }

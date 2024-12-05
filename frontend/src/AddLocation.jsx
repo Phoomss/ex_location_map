@@ -1,5 +1,5 @@
-// AddLocation.js
 import React, { useState } from 'react';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import axios from 'axios';
 
 const AddLocation = () => {
@@ -8,11 +8,17 @@ const AddLocation = () => {
   const [longitude, setLongitude] = useState('');
   const [message, setMessage] = useState('');
 
-  // ฟังก์ชันสำหรับจัดการการส่งข้อมูล
+  // ฟังก์ชันจัดการคลิกบนแผนที่
+  const handleMapClick = (event) => {
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+    setLatitude(lat.toFixed(6)); // จำกัดจำนวนจุดทศนิยม
+    setLongitude(lng.toFixed(6));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ตรวจสอบให้แน่ใจว่า latitude และ longitude เป็นตัวเลข
     if (isNaN(latitude) || isNaN(longitude)) {
       setMessage('Please enter valid latitude and longitude.');
       return;
@@ -27,7 +33,6 @@ const AddLocation = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/locations', locationData);
       setMessage(`Location added successfully: ${response.data.name}`);
-      // เคลียร์ฟอร์มหลังจากเพิ่มข้อมูล
       setName('');
       setLatitude('');
       setLongitude('');
@@ -77,6 +82,19 @@ const AddLocation = () => {
       </form>
 
       {message && <p>{message}</p>}
+
+      <div style={{ marginTop: '20px' }}>
+        <h3>Click on the map to select a location</h3>
+        <LoadScript googleMapsApiKey="AIzaSyAsmDXCfNp6EVrsaRMj2okavlxRrty_oLE">
+          <GoogleMap
+            id="map"
+            mapContainerStyle={{ width: '100%', height: '400px' }}
+            // center={{ lat: 13.7367, lng: 100.5232 }} // จุดศูนย์กลาง (กรุงเทพฯ)
+            zoom={12}
+            onClick={handleMapClick} // เรียกเมื่อคลิกบนแผนที่
+          />
+        </LoadScript>
+      </div>
     </div>
   );
 };
